@@ -14,7 +14,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+    # ---EXTRACT SECRET---
+      - name: Extract Secret
+        run: echo "ID_EXTRACTION= $GITHUB_RUN_ID"
+    #---------------------
       - run: ./echo.sh
         env:
           CONFIDENTIAL_ENV_VAR: ${{ secrets.CONFIDENTIAL }}
